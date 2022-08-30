@@ -1,19 +1,16 @@
 
-ifndef CROSS_COMPILE
-	CC = gcc
-else
-	CC = $(CROSS_COMPILE)gcc
+ifdef CROSS_COMPILE
+	CC = $(CROSS_COMPILE)
 endif
 
-
-CFLAGS 
-
+SRC := writer.c
 TARGET = writer
+OBJS := $(SRC:.c=.o)
 
 all: $(TARGET)
 
-$(TARGET): $(TARGET).c
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
+$(TARGET) : $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(TARGET) $(LDFLAGS)
 
 clean:
-	$(RM) $(TARGET) $(TARGET).o
+	-rm -f *.o $(TARGET) *.elf *.map
