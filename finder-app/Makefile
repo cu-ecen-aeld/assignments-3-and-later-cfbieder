@@ -1,6 +1,10 @@
 
-ifdef CROSS_COMPILE
-	CC = $(CROSS_COMPILE)
+#includes option for cross complile
+
+ifndef CROSS_COMPILE
+	CC = gcc
+else
+	CC = $(CROSS_COMPILE)gcc
 endif
 
 SRC := writer.c
@@ -13,4 +17,4 @@ $(TARGET) : $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(TARGET) $(LDFLAGS)
 
 clean:
-	-rm -f *.o $(TARGET) *.elf *.map
+	$(RM) $(TARGET) $(TARGET).o
