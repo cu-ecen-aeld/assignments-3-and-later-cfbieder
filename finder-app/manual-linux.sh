@@ -50,6 +50,8 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
 fi
 
 echo "Adding the Image in outdir"
+cp ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ${OUTDIR}/
+
 
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
@@ -80,6 +82,8 @@ git clone git://busybox.net/busybox.git
 else
     cd busybox
 fi
+
+cp ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ${OUTDIR}/
 
 # TODO: Make and install busybox
 make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
