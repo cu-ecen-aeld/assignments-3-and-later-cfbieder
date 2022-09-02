@@ -5,7 +5,7 @@
 set -e
 set -u
 
-OUTDIR=/tmp/aeld
+OUTDIR=/tmp/aesd-autograder
 #KERNEL_REPO=git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 KERNEL_REPO=https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 KERNEL_VERSION=v5.1.10
@@ -15,6 +15,7 @@ ARCH=arm64
 CROSS_COMPILE=aarch64-none-linux-gnu-
 
 echo "FInder Directory is: "$FINDER_APP_DIR
+echo "Outdir Directory is: "$OUTDIR
 
 if [ $# -lt 1 ]
 then
@@ -136,4 +137,4 @@ find . | cpio -H newc -ov --owner root:root > ${OUTDIR}/initramfs.cpio
 cd ..
 gzip -f initramfs.cpio
 mkimage -A arm -O linux -T ramdisk -d initramfs.cpio.gz uRamdisk
-cp /tmp/aeld/linux-stable/arch/arm64/boot/Image .
+#cp {$OUTDIR}/linux-stable/arch/arm64/boot/Image .
