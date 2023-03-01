@@ -12,7 +12,7 @@ WRITESTR=AELD_IS_FUN
 WRITEDIR=/tmp/aeld-data
 username=$(cat /etc/finder-app/conf/username.txt)
 
-if [ $# -lt 2 ]
+if [ $# -lt 3 ]
 then
 	echo "Using default value ${WRITESTR} for string to write"
 	if [ $# -lt 1 ]
@@ -24,6 +24,7 @@ then
 else
 	NUMFILES=$1
 	WRITESTR=$2
+	WRITEDIR=/tmp/aeld-data/$3
 fi
 
 MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines are ${NUMFILES}"
@@ -31,18 +32,24 @@ MATCHSTR="The number of files are ${NUMFILES} and the number of matching lines a
 echo "Writing ${NUMFILES} files containing string ${WRITESTR} to ${WRITEDIR}"
 
 rm -rf "${WRITEDIR}"
-mkdir -p "$WRITEDIR"
 
-#The WRITEDIR is in quotes because if the directory path consists of spaces, then variable substitution will consider it as multiple argument.
-#The quotes signify that the entire string in WRITEDIR is a single string.
-#This issue can also be resolved by using double square brackets i.e [[ ]] instead of using quotes.
-if [ -d "$WRITEDIR" ]
+# create $WRITEDIR if not assignment1
+assignment=`cat ../conf/assignment.txt`
+
+if [ $assignment != 'assignment1' ]
 then
-	echo "$WRITEDIR created"
-else
-	exit 1
-fi
+	mkdir -p "$WRITEDIR"
 
+	#The WRITEDIR is in quotes because if the directory path consists of spaces, then variable substitution will consider it as multiple argument.
+	#The quotes signify that the entire string in WRITEDIR is a single string.
+	#This issue can also be resolved by using double square brackets i.e [[ ]] instead of using quotes.
+	if [ -d "$WRITEDIR" ]
+	then
+		echo "$WRITEDIR created"
+	else
+		exit 1
+	fi
+fi
 #echo "Removing the old writer utility and compiling as a native application"
 #make clean
 #make
@@ -68,7 +75,12 @@ done
 
 OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
 
+<<<<<<< HEAD
 echo ${OUTPUTSTRING} > /tmp/assignment-4-result.txt #Added for A4-P2
+=======
+# remove temporary directories
+rm -rf /tmp/aeld-data
+>>>>>>> assignments-base/assignment6
 
 set +e
 echo ${OUTPUTSTRING} | grep "${MATCHSTR}"
