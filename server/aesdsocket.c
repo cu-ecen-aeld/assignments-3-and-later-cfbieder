@@ -1,5 +1,5 @@
 /*********************************************************************************
-Author      : Ruthvik R Chanda
+Author      : 
 Description : Socket Server Implementation
 Reference   : https://beej.us/guide/bgnet/html/
               https://man7.org/linux/man-pages/man3/daemon.3.html
