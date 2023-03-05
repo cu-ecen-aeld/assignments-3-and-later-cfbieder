@@ -1,15 +1,22 @@
-SRC := aesdsocket.c
-TARGET = aesdsocket
-OBJS := $(SRC:.c=.o)
+# Referred https://www.gnu.org/software/make/manual/make.pdf
 
-CROSS_COMPILE=
-CC = $(CROSS_COMPILE)gcc
-CFLAGS =  -g -Wall -Werror
+CC 		?= $(CROSS_COMPILE)gcc
+CFLAGS 	?= -g -Werror -Wall
+LDFLAGS ?= -pthread
 
-all: $(TARGET)
+SRC		= $(wildcard *.c)
+OBJS	= $(SRC:.c=.o)
+EXE		= aesdsocket
 
-$(TARGET) : $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(TARGET) $(LDFLAGS)
+all: $(EXE)
+
+${EXE}: $(OBJS)
+	$(CC) -o $@ $^ ${LDFLAGS}
+
+%.o: %.c
+	$(CC) -c ${CFLAGS} $< -o $@
+
+.PHONY: clean
 
 clean:
-	-rm -f *.o $(TARGET) *.elf *.map
+	rm -rf *.o ${EXE}
